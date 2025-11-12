@@ -132,13 +132,19 @@
     }
 
     const el = target
+    var targetHtml = el
+
+    if (el.querySelector(":scope > a.hint + div.hint")) { // If there is a hint, then get the actual editable div
+      targetHtml = el.querySelector(":scope > a.hint + div.hint");
+    }
+
     if (EFDRC.CONF.remove_span) {
-      removeSpan(el)
+      removeSpan(targetHtml)
     }
     el.setAttribute('contenteditable', 'false')
     if (el.hasAttribute('data-EFDRCnid')) {
-      EFDRC.cleanResize(el)
-      window.pycmd('EFDRC#' + el.getAttribute('data-EFDRCnid') + '#' + el.getAttribute('data-EFDRCfield') + '#' + el.innerHTML)
+      EFDRC.cleanResize(targetHtml)
+      window.pycmd('EFDRC#' + el.getAttribute('data-EFDRCnid') + '#' + el.getAttribute('data-EFDRCfield') + '#' + targetHtml.innerHTML)
     }
     window.pycmd('EFDRC!reload')
   }
